@@ -1,3 +1,8 @@
-FROM maven:3.8.5-jdk-11
-CMD ["mvn", "clean", "install"]
-CMD ["java", "-jar", "/target/spring-petclinic-2.6.0-SNPASHOT.jar"]
+FROM openjdk:11.0.1-jre-slim-stretch as BUILD
+EXPOSE 8080
+WORKDIR /app
+ARG JAR=spring-petclinic-2.6.0.BUILD-SNAPSHOT.jar
+ADD /src/target/$JAR /app.jar
+
+ENTRYPOINT ["java","-jar","/app.jar"]
+
